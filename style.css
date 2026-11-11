@@ -1,0 +1,81 @@
+:root{--bg:#03100a;--g:#2fe58a;--g2:#12a35a;--txt:#eafff3;--mut:#8fb8a3;--glass:rgba(255,255,255,.07);--line:rgba(120,255,180,.25)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--txt);font-family:"Manrope",Arial,sans-serif;overflow:hidden;display:grid;place-items:center}
+.aura{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 0%,rgba(30,200,110,.25),transparent 55%),radial-gradient(ellipse at 90% 100%,rgba(20,150,90,.3),transparent 50%)}
+
+.panel{position:relative;width:min(96vw,1280px);height:min(94vh,800px);border-radius:28px;padding:2.4vh 2.6vw;display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(160deg,#07241a,#04140d 60%,#06281c);border:1px solid var(--line);
+  box-shadow:0 0 0 1px rgba(0,0,0,.6),0 0 70px rgba(47,229,138,.22),inset 0 0 60px rgba(47,229,138,.08);animation:panelIn .9s cubic-bezier(.2,.8,.2,1) both}
+.pbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.32;filter:saturate(.7) hue-rotate(-10deg);
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 85%);mask-image:linear-gradient(180deg,#000,transparent 85%);animation:fade 1.4s both}
+.top,.slide,.ctrl{position:relative;z-index:2}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex:none}
+.pills{display:flex;gap:.6rem;flex-wrap:wrap}
+.pills span,.pill-count,.tagline{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1rem;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:.78rem;color:var(--mut);letter-spacing:.02em;backdrop-filter:blur(8px)}
+.pills span::before,.tagline::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g)}
+
+.slide{flex:1;min-height:0;display:flex;flex-direction:column;padding-top:3vh}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:3vw;flex:none}
+.tagline{margin-bottom:1.4vh;font-family:Consolas,monospace}
+h1{font-weight:800;font-size:clamp(2rem,4.6vw,4.2rem);line-height:1.02;letter-spacing:-.025em;max-width:16ch}
+h1 em{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-style:italic;letter-spacing:0;color:#bfffd9}
+h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.08em}
+h1 .w i{display:inline-block;font-style:inherit;transform:translateY(110%);animation:rise .8s calc(.15s + var(--k)*.07s) cubic-bezier(.2,.8,.2,1) forwards}
+.lead{max-width:26ch;font-size:.85rem;line-height:1.5;color:var(--mut);opacity:0;animation:up .8s .6s forwards;text-align:left}
+
+/* орбита с карточками */
+.orbit{position:relative;flex:1;min-height:0;margin-top:2vh}
+.orbit svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ring{fill:none;stroke:rgba(120,255,180,.5);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.2s .3s forwards}
+.node{fill:var(--g);filter:drop-shadow(0 0 8px var(--g))}
+.cards{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:1.4vw;padding:0 1vw}
+.card{flex:1 1 0;max-width:230px;min-height:120px;padding:1.1rem 1.1rem 1.2rem;border-radius:16px;background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.04));
+  border:1px solid var(--line);backdrop-filter:blur(14px);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.2);
+  transform:translateY(60px) rotate(var(--r));opacity:0;animation:cardIn .8s calc(.5s + var(--i)*.12s) cubic-bezier(.2,.8,.2,1) forwards,bob 6s calc(1.5s + var(--i)*.5s) ease-in-out infinite;transition:border-color .3s,background .3s}
+.card:hover{border-color:var(--g);background:linear-gradient(160deg,rgba(47,229,138,.25),rgba(255,255,255,.05))}
+.card h3{font-size:1.05rem;line-height:1.2;font-weight:700;margin-bottom:.5rem}
+.card p{font-size:.8rem;line-height:1.4;color:var(--mut);padding-top:.6rem;border-top:1px solid var(--line)}
+.card.solo h3{margin:0;font-weight:500;font-size:.95rem}
+code{font:500 .9em Consolas,monospace;color:var(--g);background:rgba(47,229,138,.12);padding:.05em .4em;border-radius:5px}
+
+/* извилистый путь */
+.path{position:relative;flex:1;min-height:0;margin-top:2vh}
+.path svg{position:absolute;inset:0;width:100%;height:100%}
+.road{fill:none;stroke:rgba(47,229,138,.35);stroke-width:34;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.dash{fill:none;stroke:#d9ffe9;stroke-width:2;stroke-dasharray:3 12;stroke-linecap:round;vector-effect:non-scaling-stroke;animation:flow 1.2s linear infinite}
+.stop{position:absolute;width:20px;height:20px;margin:-10px;border-radius:50%;background:#eafff3;box-shadow:0 0 0 6px rgba(47,229,138,.3),0 0 24px var(--g);animation:pop .5s calc(.4s + var(--i)*.15s) both}
+.lab{position:absolute;transform:translate(-50%,var(--dy));padding:.45rem .9rem;border-radius:12px;font-size:.82rem;background:rgba(7,36,26,.85);border:1px solid var(--line);backdrop-filter:blur(8px);white-space:nowrap;opacity:0;animation:up .6s calc(.6s + var(--i)*.15s) forwards}
+
+/* стеклянная буква в первом слайде */
+.glassx{position:absolute;right:3vw;top:8vh;font:800 min(34vh,24vw)/1 "Manrope",sans-serif;color:transparent;
+  background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(120,255,190,.25) 55%,rgba(255,255,255,.7));-webkit-background-clip:text;background-clip:text;
+  -webkit-text-stroke:2px rgba(255,255,255,.55);filter:drop-shadow(0 0 40px rgba(47,229,138,.55)) drop-shadow(0 20px 20px rgba(0,0,0,.5));
+  animation:xIn 1.2s .2s both,spin 8s ease-in-out infinite 1.4s;pointer-events:none;z-index:0}
+
+.ctrl{display:flex;justify-content:flex-end;gap:.8rem;flex:none;padding-top:1.5vh}
+.btn{border:0;cursor:pointer;padding:.8rem 1.8rem;border-radius:99px;font:700 .95rem "Manrope";color:#03140b;background:linear-gradient(135deg,var(--g),var(--g2));box-shadow:0 8px 30px rgba(47,229,138,.45);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(47,229,138,.7)}
+.btn.ghost{background:rgba(255,255,255,.07);color:var(--txt);border:1px solid var(--line);box-shadow:none}
+.btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+@keyframes panelIn{from{opacity:0;transform:scale(.96) translateY(30px)}}
+@keyframes fade{from{opacity:0}}
+@keyframes rise{to{transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(12px) translate(var(--tx,0),var(--dy,0))}to{opacity:1;transform:translate(var(--tx,0),var(--dy,0))}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes cardIn{to{opacity:1;transform:translateY(var(--y)) rotate(var(--r))}}
+@keyframes bob{50%{translate:0 -8px}}
+@keyframes flow{to{stroke-dashoffset:-15}}
+@keyframes pop{from{transform:scale(0)}}
+@keyframes xIn{from{opacity:0;transform:scale(.6) rotate(-20deg);filter:blur(30px)}}
+@keyframes spin{50%{transform:perspective(900px) rotateY(18deg) rotateZ(4deg) translateY(-10px)}}
+
+@media(max-width:820px){
+  .panel{padding:2vh 4vw}.head{flex-direction:column;align-items:flex-start;gap:1rem}
+  .slide{overflow:auto}.orbit,.path{flex:none}
+  .orbit svg,.path svg,.stop,.glassx{display:none}
+  .cards{position:static;flex-direction:column;align-items:stretch}.card{max-width:none;transform:none!important;opacity:1;animation:none}
+  .lab{position:static;transform:none;display:block;margin-top:.6rem;white-space:normal;opacity:1;animation:none}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
